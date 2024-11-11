@@ -1,0 +1,34 @@
+services:
+  lab_distributed_dbs:
+    image: ${DOCKER_REGISTRY-}labdistributeddbs
+    build:
+      context: .
+      dockerfile: Lab_distributed_dbs/Dockerfile
+    depends_on: 
+    - mongo
+    - mssql
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 21-o+!EiG181
+    volumes:
+      - mongo-data:/data/db
+
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: mssql
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=21-o+!EiG181
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql-data:/var/opt/mssql
+
+volumes:
+  mongo-data:
+  mssql-data:
